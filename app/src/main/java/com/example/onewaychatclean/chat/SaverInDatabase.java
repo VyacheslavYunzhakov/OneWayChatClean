@@ -161,13 +161,6 @@ public class SaverInDatabase extends AppCompatActivity {
                 LocationManager.NETWORK_PROVIDER, 1000 * 1, 1,
                 locationListener);
 
-        item.text_or_uri = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude +
-            "&zoom=15&size=200x200&sensor=false&key=AIzaSyBbnBQlCHfSyRKz9QPdOxu9ySfRLsYWZbM";
-        item.idOfView = R.id.imageView;
-        item.idOfXML = R.layout.imageview;
-        item.time = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-        item.type = "location";
-        database.itemDao().insertOne(item);
 
     }
     private LocationListener locationListener = new LocationListener() {
@@ -176,6 +169,15 @@ public class SaverInDatabase extends AppCompatActivity {
         public void onLocationChanged(Location location) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
+            if (latitude!= null && longitude != null){
+                item.text_or_uri = "https://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude +
+                        "&zoom=15&size=200x200&sensor=false&key=AIzaSyBbnBQlCHfSyRKz9QPdOxu9ySfRLsYWZbM";
+                item.idOfView = R.id.imageView;
+                item.idOfXML = R.layout.location_image;
+                item.time = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+                item.type = "location";
+                database.itemDao().insertOne(item);
+            } else onLocationChanged(location);
 
         }
 

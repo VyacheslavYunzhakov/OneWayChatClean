@@ -14,12 +14,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import static com.example.onewaychatclean.chat.SaverInDatabase.latitude;
-import static com.example.onewaychatclean.chat.SaverInDatabase.longitude;
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        latitude = getIntent().getDoubleExtra("latitude", 0);
+        longitude = getIntent().getDoubleExtra("longitude", 0);
     }
 
     /**
@@ -46,8 +47,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         waitForGeo();
     }
     private void waitForGeo(){
-        if (latitude != null && longitude != null) {
+        if (latitude != 0 && longitude != 0) {
         //    LatLng yourLocation = new LatLng(-34, 151);
+
             LatLng yourLocation = new LatLng(latitude, longitude);
             mMap.addMarker(new MarkerOptions().position(yourLocation).title("you are here"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((yourLocation),15));
