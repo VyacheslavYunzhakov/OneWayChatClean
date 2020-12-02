@@ -1,10 +1,7 @@
 package com.example.onewaychatclean.chat;
 
 import android.content.Context;
-import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +16,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesHolder> {
     private final List<Item> mItems;
     private final int mImageHeight;
     private final int mImageWidth;
-    ChatView chatView;
     Context context;
 
-    public MessagesAdapter(int imageHeight, int imageWidth, ChatView chatView){
-        this.chatView = chatView;
+    public MessagesAdapter(int imageHeight, int imageWidth){
         mItems = new ArrayList<>();
         mImageHeight = imageHeight;
         mImageWidth = imageWidth;
@@ -43,7 +38,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesHolder> {
     @Override
     public void onBindViewHolder(@NonNull MessagesHolder holder, int position) {
         Item item = mItems.get(position);
-        holder.bind(item, context, chatView);
+        holder.bind(item, context);
 
         holder.itemView.setTag(item);
     }

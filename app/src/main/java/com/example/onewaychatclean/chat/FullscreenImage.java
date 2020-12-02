@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,11 +21,6 @@ import android.widget.ImageView;
 
 import com.example.onewaychatclean.R;
 import com.example.onewaychatclean.model.Item;
-
-import java.lang.reflect.Field;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -120,7 +114,7 @@ public class FullscreenImage extends Fragment {
 
     private void setImageUri(View view){
         imageView = view.findViewById(R.id.fullScreenImage);
-        imageView.setImageURI(Uri.parse(item.text_or_uri));
+        imageView.setImageURI(Uri.parse(item.path));
     }
 
     @Nullable

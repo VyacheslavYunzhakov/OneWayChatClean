@@ -1,22 +1,30 @@
 package com.example.onewaychatclean.utils;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.onewaychatclean.chat.ChatView;
-
+import com.example.onewaychatclean.chat.FullscreenImageProvider;
+import com.example.onewaychatclean.database.App;
 import com.example.onewaychatclean.model.Item;
 
+import javax.inject.Inject;
+
 public class Images {
-    public void loadImages(ImageView imageView, Item item, ChatView chatView) {
-        imageView.setImageURI(Uri.parse(item.text_or_uri));
+    @Inject
+    FullscreenImageProvider fullscreenImageProvider;
+
+    public void loadImages(ImageView imageView, Item item) {
+        App.getComponent().injects(this);
+        imageView.setImageURI(Uri.parse(item.path));
         imageView.setVisibility(View.VISIBLE);
         imageView.setClickable(true);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chatView.showFullImage(item);
+                fullscreenImageProvider.getFullscreenImageProvider().showFullImage(item);
+                //chatView.showFullImage(item);
             }
         });
     }

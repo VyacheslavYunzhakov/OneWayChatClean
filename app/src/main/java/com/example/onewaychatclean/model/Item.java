@@ -15,7 +15,7 @@ public class Item {
     public String time;
 
     @TypeConverters({UriConverters.class})
-    public String text_or_uri;
+    public String path;
 
     public String type;
 

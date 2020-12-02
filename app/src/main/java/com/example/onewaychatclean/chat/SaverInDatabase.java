@@ -1,6 +1,7 @@
 package com.example.onewaychatclean.chat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,9 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ import androidx.core.content.FileProvider;
 import com.example.onewaychatclean.R;
 import com.example.onewaychatclean.database.App;
 import com.example.onewaychatclean.database.AppDatabase;
-import com.example.onewaychatclean.database.UriConverters;
 import com.example.onewaychatclean.model.Item;
 
 import java.io.File;
@@ -70,7 +68,7 @@ public class SaverInDatabase extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        photoURI = FileProvider.getUriForFile(chatActivityContext,
+         photoURI = FileProvider.getUriForFile(chatActivityContext,
                 "com.example.onewaychatclean.fileprovider",
                 photoFile);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -102,6 +100,7 @@ public class SaverInDatabase extends AppCompatActivity {
             File imageFile = createImageFile();
             FileOutputStream out = new FileOutputStream(imageFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, out);
+            Log.d("myLogs", imageFile.getAbsolutePath());
             imageURI = FileProvider.getUriForFile(this,
                     "com.example.onewaychatclean.fileprovider",
                     imageFile);
@@ -110,7 +109,7 @@ public class SaverInDatabase extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        item.text_or_uri = imageURI.toString();
+        item.path = imageURI.toString();
         item.idOfView = R.id.imageView;
         item.idOfXML = imageOrienationLayout;
         item.time = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
@@ -124,7 +123,7 @@ public class SaverInDatabase extends AppCompatActivity {
 
     public void savePhoto(Intent data) {
 
-        item.text_or_uri =photoURI.toString();
+        item.path =photoURI.toString();
         item.idOfView = R.id.imageView;
         item.idOfXML = R.layout.imageview;
         item.time = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
@@ -134,7 +133,7 @@ public class SaverInDatabase extends AppCompatActivity {
 
     public void createAndSaveTextMessage(RelativeLayout relativeLayout) {
         EditText saveText = relativeLayout.findViewById(R.id.inputMessage);
-        item.text_or_uri = saveText.getText().toString();
+        item.path = saveText.getText().toString();
         saveText.setText("");
         item.idOfView = R.id.textMessage;
         item.idOfXML = R.layout.text;
@@ -170,7 +169,7 @@ public class SaverInDatabase extends AppCompatActivity {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
             if (latitude!= null && longitude != null){
-                item.text_or_uri = "https://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude +
+                item.path = "https://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude +
                         "&zoom=15&size=200x200&sensor=false&key=AIzaSyBbnBQlCHfSyRKz9QPdOxu9ySfRLsYWZbM";
                 item.idOfView = R.id.imageView;
                 item.idOfXML = R.layout.location_image;
@@ -196,13 +195,15 @@ public class SaverInDatabase extends AppCompatActivity {
         }
     };
     private File createImageFile() throws IOException {
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = chatActivityContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        Log.d("myLogs", "storageDir:" + storageDir);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,
+                ".jpg",
+                storageDir
         );
 
         String mCurrentPhotoPath = image.getAbsolutePath();

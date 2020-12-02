@@ -1,8 +1,6 @@
 package com.example.onewaychatclean.chat;
 
 import android.content.Context;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,8 +15,6 @@ import com.example.onewaychatclean.model.Item;
 import com.example.onewaychatclean.utils.Images;
 import com.example.onewaychatclean.utils.Locations;
 import com.example.onewaychatclean.utils.Texts;
-
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,10 +50,10 @@ public class MessagesHolder extends RecyclerView.ViewHolder {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-    public void bind(@NonNull Item item, Context context, ChatView chatView) {
+    public void bind(@NonNull Item item, Context context) {
         if (item.type.equals("image") || item.type.equals("camera")) {
             Images images = new Images();
-            images.loadImages(imageView, item, chatView);
+            images.loadImages(imageView, item);
         }
         if (item.type.equals("location")) {
             Locations.loadLocations(imageView, item, context);

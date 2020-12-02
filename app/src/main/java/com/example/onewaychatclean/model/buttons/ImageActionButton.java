@@ -19,7 +19,7 @@ public class ImageActionButton extends ActionButton {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        SaverInDatabase saverInDatabase = new SaverInDatabase();
+        //SaverInDatabase saverInDatabase = new SaverInDatabase();
         chatView.startImageIntent();
     }
 }

@@ -4,9 +4,14 @@ import android.app.Application;
 
 import androidx.room.Room;
 
+import com.example.onewaychatclean.chat.AppComponent;
+import com.example.onewaychatclean.chat.DaggerAppComponent;
+
+
 public class App extends Application {
     public static App instance;
 
+    private static AppComponent component;
     private AppDatabase database;
     @Override
     public void onCreate() {
@@ -15,7 +20,7 @@ public class App extends Application {
         database = Room.databaseBuilder(this, AppDatabase.class, "database")
                 .allowMainThreadQueries()
                 .build();
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database").build();
+        component = DaggerAppComponent.create();
     }
 
     public static App getInstance() {
@@ -24,5 +29,9 @@ public class App extends Application {
 
     public AppDatabase getDatabase() {
         return database;
+    }
+
+    public static AppComponent getComponent() {
+        return component;
     }
 }

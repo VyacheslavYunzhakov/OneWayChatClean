@@ -2,14 +2,11 @@ package com.example.onewaychatclean.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.onewaychatclean.chat.ChatView;
+
 import com.example.onewaychatclean.chat.MapsActivity;
 import com.example.onewaychatclean.model.Item;
 import com.squareup.picasso.Picasso;
@@ -18,7 +15,7 @@ import com.squareup.picasso.Picasso;
 public class Locations {
     public static void loadLocations(ImageView imageView, Item item, Context context) {
         //imageView.setImageURI(Uri.parse(item.text_or_uri));
-        String url =item.text_or_uri;
+        String url =item.path;
         Log.d("myLogs", "" + url);
         Picasso.with(context)
                 .load(url)

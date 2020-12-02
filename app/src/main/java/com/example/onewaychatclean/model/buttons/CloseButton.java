@@ -16,7 +16,7 @@ public class CloseButton extends ActionButton {
     }
 
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
-    }
+        public void onClick(View v) {
+            super.onClick(v);
+        }
 }

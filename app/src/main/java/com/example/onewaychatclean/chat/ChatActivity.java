@@ -3,24 +3,21 @@ package com.example.onewaychatclean.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.example.onewaychatclean.R;
 
+import com.example.onewaychatclean.database.App;
 import com.example.onewaychatclean.model.Item;
 import com.example.onewaychatclean.model.buttons.ActionButton;
 import com.example.onewaychatclean.model.buttons.AddButton;
@@ -37,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ChatActivity extends AppCompatActivity implements ChatView, View.OnClickListener {
+public class ChatActivity extends AppCompatActivity implements ChatView, View.OnClickListener, IFullscreenImageView {
 
     private final int columns = 1;
     private int margin;
@@ -71,6 +68,9 @@ public class ChatActivity extends AppCompatActivity implements ChatView, View.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         ltInflater = LayoutInflater.from(this);
+
+        FullscreenImageProvider fullscreenImageProvider = App.getComponent().getFullscreenImageProvider();
+        fullscreenImageProvider.setFullscreenImageProvider(this);
 
         frameLayout = findViewById(R.id.content_fragment);
         sendTextMessageButton= findViewById(R.id.sendMessageButton);
@@ -117,7 +117,7 @@ public class ChatActivity extends AppCompatActivity implements ChatView, View.On
         int columns = getResources().getInteger(R.integer.columns_count);
         int imageWidth = getResources().getDisplayMetrics().widthPixels / columns;
 
-        return new MessagesAdapter(imageHeight, imageWidth, this);
+        return new MessagesAdapter(imageHeight, imageWidth);
     }
 
     @Override
@@ -172,5 +172,6 @@ public class ChatActivity extends AppCompatActivity implements ChatView, View.On
         RelativeLayout relativeLayout = findViewById(R.id.relativeLayoutSendMessage);
         saverInDatabase.createAndSaveTextMessage(relativeLayout);
     }
+
 
 }
